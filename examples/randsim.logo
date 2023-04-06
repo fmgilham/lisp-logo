@@ -1,0 +1,36 @@
+load "bargraph.logo
+
+make "number.of.dice 10
+
+to roll.die
+output 1 + random 6
+end
+
+to roll.dice :cnt
+  localmake "total 0
+  repeat :cnt [make "total roll.die + :total]
+  output :total
+end
+
+
+to record :cnt
+localmake "first.result :number.of.dice - 1
+local "roll
+repeat count :results [setitem repcount :results 0]
+repeat :cnt [make "roll (roll.dice :number.of.dice)   ~
+              setitem (:roll - :first.result) :results (1 + (item (:roll - :first.result)  :results)) ]
+print :results
+end
+
+
+
+to setup.results
+  make "results (array (:number.of.dice * 6) - (:number.of.dice - 1))
+  repeat count :results [setitem repcount :results 0]
+end
+
+
+to demo
+setup.results
+repeat 1000 [record 1000 bargraph :results]
+end

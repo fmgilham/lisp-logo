@@ -1,0 +1,120 @@
+;Paul Bleicher, 1998 Copyright
+
+;to circle :size
+;arc 360 :size
+;end
+
+;; Colors
+make "black 0
+make "green 2
+make "white 7
+make "red 8
+
+
+to tick :len
+fd 4.25 rt 90 fd :len rt 180 fd :len rt 90 rt 1
+end
+
+to labeltick :num
+; fd 4.25 rt 90 fd 20 pu lt 90 fd 10 rt 90 label :num rt 90 fd 10 rt 90
+fd 4.25 rt 90 fd 20 pu lt 90 fd 10 rt 90 rt 90 fd 10 rt 90 label :num
+end
+
+to ticks :N
+repeat 4 [tick 5]
+tick 10
+repeat 4 [tick 5]
+labeltick :n
+fd 20 rt 90 pd rt 1
+end
+
+to tocks :N
+if :N = 370 [stop]
+ticks :N
+tocks :N + 10
+end
+
+to tocksl :N
+if :N < 0 [stop]
+ticks :N
+tocksl :N - 10
+end
+
+
+to leftcompass
+circle 5
+pu
+fd 240
+rt 90
+pd
+make "N 350
+tocksl :N
+end
+
+
+to compass
+circle 5
+pu
+fd 240
+rt 90
+pd
+make "N 10
+tocks :N
+end
+
+to legend :ang :dir
+pu fd 175 lt 90 fd 55 rt 180 pd
+(label :ang "|degree angle to the| :dir)
+pu fd 55 rt 90 fd 175 rt 180 pd
+end
+
+;This program constructs an angle to the right.
+;To run, type rangle ## (for example rangle 45)
+to rangle :G
+cs
+ht
+setfont "normal
+setpencolor :red
+setpensize [3 3]
+rt 180
+arc :G 50
+rt 180
+setpencolor :green
+fd 200 bk 200 rt :G fd 50
+setpencolor :red
+lt 135 fd 15 bk 15 rt 90 fd 15 bk 15
+setpencolor :green
+rt 45 fd 150 bk 200 lt :G
+setpencolor :white
+setpensize [1 1]
+legend :G "|right|
+compass
+end
+
+;This program constructs a left angle.
+;To run, type langle ## (for example langle 45)
+;
+to langle :G
+cs
+ht
+setfont "normal
+setpencolor :red
+setpensize [3 3]
+rt 180
+arc minus :G 50
+rt 180
+setpencolor :green
+fd 200
+bk 200
+lt :G
+fd 50
+rt 45
+setpencolor :red
+fd 15 bk 15 rt 90 fd 15 bk 15
+setpencolor :green
+lt 135 fd 150 bk 200 rt :G
+setpencolor :white
+setpensize [1 1]
+legend :g "|left|
+leftcompass
+end

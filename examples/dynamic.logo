@@ -1,0 +1,33 @@
+;; Interactive, reads keystrokes (READKEY operation)
+
+wrap
+
+to moveturtle
+   setxy xcor + :vx ycor + :vy
+   end
+
+to kick
+   make "vx :vx + (sin heading)
+   make "vy :vy + (cos heading)
+   end
+
+to getcommand
+   localmake "com readkey
+   if equalp :com "r [rt 30]
+   if equalp :com "l [lt 30]
+   if equalp :com "k [kick]
+   if equalp :com "q [make "stopme "true]
+   end
+
+to dt
+   localmake "vx 0    ; Velocity in the X direction
+   localmake "vy 0
+   localmake "stopme "false
+   forever [
+         getcommand
+         test :stopme
+         ift [stop]
+         iff [moveturtle]
+	 ]
+   end
+

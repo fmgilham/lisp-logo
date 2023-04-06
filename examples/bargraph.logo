@@ -1,0 +1,32 @@
+to onebar :array :num
+pu
+setxy (:num * 6) - 250 -200
+pd
+setpc 1 + (remainder :num 5)
+fd item :num :array
+end
+
+to onebar.special :array :num :id
+pu
+setxy (:num * 6) - 250 -200
+pd
+ifelse equalp :num :id [setpc 4] [setpc 2]
+fd item :num :array
+end
+
+to bargraph :array
+localmake "savedpensize pensize
+home cs ht
+; setpensize [3 3]
+setpensize [8 8]
+repeat (count :array) - 1 [onebar :array repcount]
+setpensize :savedpensize
+end
+
+to bargraph.special :array :n
+localmake "savedpensize pensize
+home cs ht
+setpensize [3 3]
+repeat count :array [onebar.special :array repcount :n]
+setpensize :savedpensize
+end

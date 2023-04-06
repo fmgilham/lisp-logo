@@ -1,0 +1,54 @@
+;   This is a simulation of the Chinese population problem.
+; Imagine that you keep having children until you get a boy,
+; what will the proportion of boys to girls be?
+;   It took me a while to realize what the answer to this would
+; be, since my intuition led me wrong.  But this proves it.
+; [Ian Bicking]
+
+; load "bargraph
+
+make "results array 2
+
+to clear.results
+repeat count :results [setitem repcount :results 0]
+end
+
+
+to random.child
+   output random 2
+end
+
+to inc.child :type
+   localmake "amount item :type :results
+   setitem :type :results :amount + 1
+end
+
+to reproduce
+   localmake "type -1
+   until :type = 0 [make "type random.child inc.child :type]
+end
+
+to greproduce
+   localmake "type -1
+   until :type = 0 [make "type random.child inc.child :type]
+end
+
+to do.trial :n
+clear.results
+repeat :n [greproduce if (remainder repcount 10) = 0 [bargraph :results wait 60]]
+end
+
+to presults
+cs
+localmake "boys item 0 :results
+localmake "girls item 1 :results
+label (list "boys :boys "girls :girls)
+end
+
+
+to v.trial :n
+clear.results
+repeat :n [greproduce if (remainder repcount 10) = 0 [presults wait 60]]
+end
+
+

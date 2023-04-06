@@ -1,0 +1,3 @@
+to moire :reps
+repeat :reps [seth repcount repeat repcount [fd 2 rt 1] pu home pd setpc random 15]
+end

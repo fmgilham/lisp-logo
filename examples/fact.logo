@@ -1,0 +1,37 @@
+;; Simple recursive programs 
+;;
+;; facttail is "tail recursive". 
+;;
+;; It doesn't help because the lisps I use inhibit tail call
+;; optimization if they are in the scope of special bindings.
+;;
+;;
+;; So the common logo programming style of looping with recursion
+;; won't work.
+;;
+;; That is
+;;
+;;        to logostyle :x
+;;        make "x :x + 1
+;;        baz :x
+;;        logostyle
+;;        end
+;;
+;; will crash with a stack-overflow error. Too bad....
+;;
+
+to fact :n
+output ifelse :n = 0 [1] [* :n fact :n - 1]
+end
+
+
+to facttail :n :acc
+output ifelse :n = 0 [output :acc] [output facttail :n - 1 :n * :acc]
+end
+
+
+to logostyle :x
+make "x :x + 1
+print fact :x
+logostyle :x
+end

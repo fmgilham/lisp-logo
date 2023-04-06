@@ -1,0 +1,41 @@
+;;; Code taken from lhogho logo compiler examples.
+
+;if 1 <> count commandline
+;[
+;  print [Lhogho Primes 1.0 - Prints the prime numbers up to a limit]
+;  print [Usage: primes limit]
+;  bye
+;]
+
+make "pri [2]
+
+;; TEST is a logo primitive --- use TASTE instead
+;;
+to taste :num
+  local "testnum
+  localmake "p :pri
+  localmake "q sqrt :num
+  forever [
+    make "testnum first :p
+    if equal? (remainder :num :testnum) 0 [
+       output (se :num "divisible "by :testnum)
+    ]
+    if :testnum > :q [
+       make "pri lput :num :pri
+       output (se :testnum "greater "than "sqrt :num)
+    ]
+    make "p bf :p
+    if empty? :p [
+       make "pri lput :num :pri
+       output (se :num "is "prime)
+    ]
+  ]
+end
+
+
+to primes :number
+  make "pri [2]
+  repeat :number - 2 [ print taste repcount + 2 ]
+;  make "count count :pri
+  print (se [there are] count :pri [primes less than] :number)
+end

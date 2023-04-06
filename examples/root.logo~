@@ -1,0 +1,41 @@
+make "epsilon .0000001
+
+TO absv :n
+   output ifelse :n < 0 [output minus :n][output :n]
+   END
+
+TO avg :a :b
+   output (:a + :b) / 2.0
+   END
+
+make "average 0
+
+to average
+   output :average
+   end
+
+TO cube.root :n :low :high
+   make "average avg :low  :high
+;   print :average
+   if (absv :average - :low) < :epsilon [output :average]
+   if (absv :average - :high) < :epsilon [output :average]
+   ifelse (product :average :average :average) > :n [
+   	  output cube.root :n :low :average] [
+          output cube.root :n :average :high
+   ]
+   END
+
+TO root :n
+   output cube.root :n 1 :n
+   END
+
+TO fourth.root :n :low :high
+   make "average avg :low  :high
+;   print :average
+   if (absv :average - :low) < :epsilon [output :average]
+   if (absv :average - :high) < :epsilon [output :average]
+   ifelse (product :average :average :average :average) > :n [
+   	  output fourth.root :n :low :average] [
+          output fourth.root :n :average :high
+   ]
+   END

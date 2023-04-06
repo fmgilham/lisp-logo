@@ -1,0 +1,19 @@
+make "a 3
+
+to trybinding
+print se "trybinding :a
+make "a 5
+print se "trybinding :a
+end
+
+
+
+to trylocal
+print se "trylocal :a
+local "a
+make "a 5
+print se "trylocal :a
+end
+
+
+

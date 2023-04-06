@@ -1,0 +1,150 @@
+to sidepiece :size
+   fd :size
+   rt 90
+end
+
+to square :size
+   repeat 4 [sidepiece :size]
+end
+
+
+to rectangle :side1 :side2
+   repeat 2 [
+     sidepiece :side1
+     sidepiece :side2
+   ]
+end
+
+
+to funky
+  repeat 2 [sidepiece 100]
+  repeat 2 [sidepiece 50]
+  sidepiece 100
+  repeat 2 [sidepiece 25]
+  fd 50
+end
+
+to funky1
+   repeat 4 [funky]
+end
+
+
+to funky2
+  repeat 360/10 [funky rt 10 fd 50]
+end
+
+to funky3
+  repeat 360/45 [funky lt 45 fd 100]
+end
+
+to arcr :r :deg
+  repeat :deg [fd :r rt 1]
+end
+
+to arcl :r :deg
+  repeat :deg [fd :r lt 1]
+end
+
+
+to circles
+   repeat 9 [
+       arcr 1 360
+       right 40
+   ]
+end
+
+to ray :r
+   repeat 2 [
+       arcl :r 90
+       arcr :r 90
+   ]
+end
+
+to sun :size
+   repeat 9 [
+       ray :size
+       rt 160
+   ]
+end
+
+to petal :size
+   arcr :size 60
+   rt 120
+   arcr :size 60
+   rt 120
+end
+
+to flower :size
+   repeat 12 [petal :size rt 30]
+end
+
+to coolflower0
+;   clean
+   setpc :mypc ; From SPINCOLORS
+   repeat 10 [flower repcount / 2]
+   wait 10
+   setpc 0
+   repeat 10 [flower repcount / 2]
+   setpc :mypc
+   repeat 10 [flower repcount / 2]
+end
+
+
+to coolflower
+;;   clean
+   repeat 10 [
+       setpc random 16
+       flower 6 - repcount / 2
+       wait 2
+   ]
+end
+
+to spinflower :n :w
+   repeat :n [coolflower rt 15 wait :w]
+end
+
+to spincolors :n :w
+local "red "green "blue "mypc
+repeat :n [
+   make "red random 1.0
+   make "green random 1.0
+   make "blue random 1.0
+   make "mypc (list :red :green :blue)
+   coolflower0 rt 15 wait :w
+]
+end
+
+
+to polyspi :side :angle
+   fd :side
+   rt :angle
+   polyspi :side + 1 :angle
+end
+
+
+;;; Invoke as
+;;;   cs pu back 200 pd hilbert 10 5 1
+;;; or the like.
+
+to hilbert :side :level :p
+h minus :p
+rfr :p
+h :p
+rfr minus :p
+h :p
+rfr :p
+h minus :p
+end
+
+to rfr :p
+setpc :level + 2
+rt :p * 45
+fd :side
+rt :p * 45
+end
+
+to h :p
+if :level = 0 [right :p * 90 stop]
+hilbert :side :level - 1 :p
+end
+ 

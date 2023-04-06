@@ -1,0 +1,84 @@
+;;;
+;;; Investigations in Algebra by Albert Cuoco
+;;;
+
+;;; There seems to be a convention to write multiplication without
+;;; spaces; that is, 2*:x instead of 2 * :x. But + and - are written
+;;; with spaces: 3 - 2 etc.
+
+;;;
+;;; Example functions.
+to f1 :x
+   op 2*:x
+end
+
+to f2 :x :y
+   op :x + 2*:y
+end
+
+to g :x
+   op :x*:x + 6*:x - 7
+end
+
+to farenheit.to.celcius :t
+   op (:t - 32) * (5 / 9.0)
+   end
+
+to f.to.c :t
+   op farenheit.to.celcius :t
+   end
+
+to celcius.to.farenheit :t
+   op :t*9.0/5 + 32
+   end
+
+to c.to.f :t
+   op celcius.to.farenheit :t
+   end
+
+;;;
+;;; Tools
+;;;
+
+TO interval :a :b
+   if :a > :b [op []]
+   op list :a (interval :a + 1 :b)
+END
+
+;;; "Apply" conflicts with common lisp "apply".
+TO lapply :function :x
+   op run se :function :x
+END
+
+TO tab :f :a :b
+   if :a > :b [stop]
+   (show :a "|. . .| lapply :f :a)
+   tab :f :a + 1 :b
+END
+
+TO tab.e :f :e :a :b
+   if :a > :b [stop]
+   (show :a "|. . .| lapply :f se :e :a)
+   tab.e :f :e :a + 1 :b
+END
+
+
+to j :x :y :z
+   op :x - :y + 2 * :z
+end
+
+TO l.tab :f :e :l
+   if emptyp :l [stop]
+   (show (first :l) "|. . .| lapply :f se :e first :l)
+   l.tab :f :e bf :l
+END
+
+TO digit :n
+   if :n<10 [op :n]
+   op (digit :n - 10)
+   END
+
+TO factorial :n
+   if :n=0 [op 1]
+   op :n * factorial :n - 1
+   END

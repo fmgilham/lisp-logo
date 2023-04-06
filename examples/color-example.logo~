@@ -1,0 +1,21 @@
+to quadrat :n
+   repeat 4 [forward :n right 90]
+   end
+
+
+to colortest
+   repeat 255 [
+     localmake "red repcount
+     repeat 255 [
+        localmake "blue repcount
+	localmake "green modulo (:red * :blue) 256
+	setpencolor [:red :green :blue]
+        quadrat 500
+        forward 25 
+        right 3.7
+     ]
+     forward 100 
+     left 17
+     if equalp readkey "q [stop]
+  ]
+

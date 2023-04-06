@@ -1,0 +1,13 @@
+to perdoub
+   localmake "n 0
+   local "k "a "x
+   
+   repeat 10000 [
+   	  make "n :n + 1.5
+   	  make a 3.4 + 2 * :n / 280
+	  make "x .7
+	  repeat 160 [
+	  	 make "k 1
+	  	 make "x :a * :x * (1 - :x)
+		 
+      

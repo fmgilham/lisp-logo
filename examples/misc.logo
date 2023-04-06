@@ -1,0 +1,105 @@
+to spiralword :word
+repeat 144 [
+    penup
+    fd repcount * repcount / 30
+    label :word
+    bk repcount * repcount / 30
+    pendown
+    rt 10]
+  END
+
+TO fern :size :sign
+  if :size < 1 [ stop ]
+  fd :size
+  rt 70 * :sign fern :size * 0.5 :sign * -1 lt 70 * :sign
+  fd :size
+  lt 70 * :sign fern :size * 0.5 :sign rt 70 * :sign
+  rt 7 * :sign fern :size - 1 :sign lt 7 * :sign
+  bk :size * 2
+  END
+
+; clearscreen pu bk 250 rt 90 back 100 lt 90 pd
+; fern 25 1
+
+; repeat takes a runlist and executes it, in this case, 100000 times.
+; The runlist sets the pencolor to a random color. Then RUN runs a runlist
+; that is constructed on the fly.
+;repeat 100000 [run list item 1 + random 4 [fd bk rt lt] random 10]
+to rand
+repeat 100000 [run list item 1 + random 4 [fd bk rt lt] random 10 setpc random 16]
+end
+
+to func
+setpc random 16
+output (list item 1 + random 4 [fd bk rt lt] random 10)
+end
+
+to randfunc
+repeat 10000 [run func]
+end
+
+to roses :l :n :k
+localmake "x (quotient (difference (product 2  :k) :n) (product 2 :n))
+print :x
+repeat 360 * :n [fd :l rt repcount * :x]
+end
+
+to spin
+repeat 15 [fd 100 bk 100 rt 5]
+end
+; repeat 25 [spin fd 100]
+
+to spin2
+repeat 15 [fd 100 bk 95 rt 10]
+end
+;; repeat 12 [spin2 fd 100]
+
+
+to spin3
+repeat 25 [fd 100 bk 100 rt 15]
+end
+;;pu setpos [-400 0] pd
+;;repeat 24 [spin3 fd 100]
+
+;; flowers
+repeat 1800 [fd 10 rt repcount + .1]
+
+;; more flowers
+repeat 8 [rt 45 repeat 6 [repeat 90 [fd 2 rt 2] rt 90]]
+
+TO circlespin :count
+   repeat :count [circle 10 + round repcount / 10
+               fd 5 + repcount / 10 
+               lt 10
+   ]
+   END
+
+
+to mondrian :count
+   repeat :count [
+   	  make "w random 50
+	  make "h random 50
+	  setpc random 16
+	  repeat 2 [
+	  	 fd :w rt 90
+		 fd :h rt 90
+          ] 
+	  fd random 100 lt 90 
+	  fd random 100 lt 90
+   ]
+end
+
+;TO fill.fd :n
+;   if :n = 0 [stop]
+;   localmake "realx xcor
+;   localmake "realy ycor
+;   setxy :anchorx :anchory
+;   setxy :realx :realy
+;   fd 1
+;   fill.fd :n - 1
+;   END
+
+;TO anchor
+;   make "anchorx xor
+;   make "anchory ycor
+;   END

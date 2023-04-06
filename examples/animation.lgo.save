@@ -1,0 +1,250 @@
+make "tim 60
+make "savedpc 7
+
+make "black 0
+make "blue 1
+make "green 2
+make "cyan 3
+make "red 4
+make "magenta 5
+make "yellow 6
+make "white 7
+make "brown 8
+make "tan 9
+make "forestgreen 10
+make "aquamarine 11
+make "salmon 12
+make "purple 13
+
+;; Two utilities (add to logo later)
+
+;;;; to penerase
+;;;; ; Save the current pencolor
+;;;; make "savedpc pc
+;;;; ; Set to 0 (the background)
+;;;; setpc :black
+;;;; pd
+;;;; end
+
+;;;; to penpaint
+;;;; ; Retrieve the saved pen color
+;;;; setpc :savedpc
+;;;; pd
+;;;; end
+
+
+TO BODY
+HALFCIRCLE 8
+FD 8 RT 90 FD 90 BK 90
+END
+
+TO BREATHE
+OPEN.UP
+REPEAT 5 [FIRE RT 5 FIRE LT 5 wait :tim]
+SHUT
+REPEAT 3 [SMOKE wait :tim]
+END
+
+TO CHEW
+PU
+SETPOS se 87.99 81.77
+SETH 0 HT
+PD
+REPEAT 3 [OPEN.UP SHUT wait 30]
+END
+
+TO CCIRCLE :R
+REPEAT 36 [RT 5 FD 0.175 * :R RT 5 wait :tim]
+END
+
+TO EYE
+SETPC :GREEN
+PU SETPOS se 94 90 PD CCIRCLE 3
+SETPOS se 97 90 FD 1 BK 1 
+END
+
+TO FIRE
+PU SETPOS se 87.99 81.77 PD
+SETH 95 FLAME
+END
+
+TO FLAME
+SETPC :RED
+SETPENSIZE [4 4]  ; Make flame line wide
+FD 100 wait 10 
+PENERASE
+SETPENSIZE [4 4]  ; Set pen size for penerase
+BK 100
+SETPENSIZE [0 0]  ; put it back
+PENPAINT
+SETPENSIZE [0 0]  ; put back penpaint pen size
+END
+
+TO HALFCIRCLE :N
+REPEAT 7 [FD :N RT 10 wait :tim]
+PU REPEAT 5 [FD :N RT 10 wait :tim]
+PD REPEAT 6 [FD :N RT 10 wait :tim]
+END
+
+TO HEAD
+UPPER.JAW
+LOWER.JAW
+END
+
+TO HEAD.SHUT
+FD 30 RT 100 FD 50
+RT 160 FD 50 LT 180
+FD 40 RT 160 FD 40
+END
+
+TO LEGS
+START
+SETH 90
+TRI 15 FD 8 TRI 15
+FD 64 TRI 15 FD 8
+TRI 15
+END
+
+TO LOWER.JAW
+RT 180 FD 13.9 LT 100 FD 40
+LT 160 FD 40 RT 80
+END
+
+TO MOUTH
+FD 30 RT 100 FD 50
+RT 160 FD 50 LT 160
+REPEAT 6 [OPEN.UP SHUT wait 60]
+END
+
+
+TO NECK
+RT 180
+REPEAT 15 [FD 5 LT 10 wait :tim]
+REPEAT 12 [RT 10 FD 3 wait :tim]
+LT 60
+HEAD
+SETH 0
+FD 5 LT 90
+REPEAT 15 [TRI 4 FD 4 LT 10 wait :tim]
+REPEAT 12 [TRI 4 FD 4 RT 14 wait :tim]
+END
+
+TO NECK1
+RT 180
+REPEAT 15 [FD 5 LT 10 wait :tim]
+REPEAT 12 [RT 10 FD 3 wait :tim]
+LT 60 BK 15
+MOUTH
+END
+
+TO NOSTRILS
+PU SETPOS se 124 95
+PD CCIRCLE 4
+END
+
+
+TO OPEN.UP
+localmake "tmph heading
+localmake "tmpc pc
+setpc 0 LOWER.JAW 
+PENPAINT RT 21.5 SETPC :GREEN LOWER.JAW
+wait 60
+seth :tmph
+setpc :tmpc
+END
+
+
+TO POINTS
+START
+SETH -60
+REPEAT 7 [TRI 8 RT 60 FD 8 LT 50 wait :tim]
+PU
+REPEAT 5 [TRI 8 RT 60 FD 8 LT 50 wait :tim]
+PD
+REPEAT 6 [TRI 8 RT 60 FD 8 LT 50 wait :tim]
+END
+
+TO PUFF
+CS CT ht SETPENSIZE [0 0] SETPC :green PD 
+localmake "tim .5
+START BODY NECK
+TAIL LEGS POINTS WINGS
+REPEAT 3 [CHEW BREATHE wait 20]
+END
+
+
+TO SHUT
+localmake "tmph heading
+localmake "tmpc pc
+; PENERASE
+seth 0
+setpc 0
+rt 21.5 LOWER.JAW 
+LT 21.5 SETPC :GREEN PD LOWER.JAW
+wait 60
+seth :tmph
+setpc :tmpc
+; PENPAINT
+END
+
+
+TO SMOKE
+PU SETPOS se 127 95 SETH 30 PD 
+SETPC :YELLOW
+LT 20 FD 20 BK 20
+RT 20 FD 20 BK 20
+RT 20 FD 20 BK 20
+wait 60
+PENERASE
+LT 40 FD 20 BK 20
+RT 20 FD 20 BK 20
+RT 20 FD 20 BK 20
+LT 20 PENPAINT
+END
+
+
+;; LIST doesn't seem to work right here.
+;TO START
+;PU SETPOS LIST -25 0 PD
+;END
+
+TO START
+PU SETPOS se -25 0 PD
+END
+
+TO TAIL
+START
+SETH 330
+REPEAT 3 [FD 5 RT 10 wait :tim]
+REPEAT 13 [TRI 5 FD 5 LT 10 wait :tim]
+REPEAT 11 [TRI 5 FD 5 RT 10 wait :tim]
+LT 110 BK 5 TRI 10
+END
+
+TO TIP
+REPEAT 10 [FD 1 LT 18 wait :tim]
+FD 30 BK 20 LT 180
+END
+
+TO TRI :N
+REPEAT 3 [FD :N RT 120 wait :tim]
+END
+
+TO UPPER.JAW
+FD 15 RT 94 FD 45 RT 86
+FD 9 RT 86 FD 45 RT 94
+EYE
+NOSTRILS
+PU SETPOS se 87.99 81.77
+PD
+END
+
+TO WINGS
+PU SETPOS se 40 25 SETH 0 PD
+REPEAT 6 [FD 8 LT 5 wait :tim]
+FD 40 REPEAT 6 [TIP wait :tim]
+BK 20 LT 180 REPEAT 7 [FD 3 LT 10 wait :tim]
+END
+
+to ct
+end

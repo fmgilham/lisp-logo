@@ -1,0 +1,21 @@
+make "pri [2]
+
+to taste :num
+  local "testnum
+  localmake "p :pri
+  localmake "q sqrt :num
+  forever [                     ~
+    make "testnum first :p      ~
+    if empty? :p [make "pri se :pri :num stop]     ~                       
+    if equal? (remainder :num :testnum) 0 [ stop ] ~
+    if :testnum > :q [ make "pri se :pri :num stop ] ~
+    make "p bf :p                                    ~
+  ]
+end
+
+to primes :number
+  make "pri [2]
+  localmake "n 2
+  repeat :number [ taste :n make "n :n+1 ]  
+  print se [list of primes] :pri
+end

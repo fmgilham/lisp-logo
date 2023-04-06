@@ -1,0 +1,253 @@
+;;; Code from APPROACHING PRECALCULUS MATHEMATICS DISCRETELY 
+;;; by Philip G. Lewis.
+;;;
+;;; Made minor modifications, such as preferring LOCALMAKE over LOCAL
+;;; and MAKE.
+
+;; Dimensions of screen. Set the "400" numbers to half your screen size.
+to xdim
+   output 400
+   end
+
+to ydim
+   output 400
+   end
+
+
+to cross :scale
+   localmake "bar :scale/10
+   lt 90
+   fd :bar
+   bk 2*:bar
+   fd :bar
+   rt 90
+   end
+
+to mmark :scale
+   fd :scale 
+   cross :scale
+   end
+
+   
+to xax :xrep
+   repeat :xrep [mmark :xscale]
+   bk :xrep*:xscale
+   end
+
+to yax :yrep
+   repeat :yrep [mmark :yscale]
+   bk :yrep*:yscale
+   end
+
+to axes :xs :ys
+   make "xscale :xs
+   make "yscale :ys
+   localmake "xrep xdim/:xs
+   localmake "yrep ydim/:ys
+   repeat 2 [yax :yrep rt 90 xax :xrep rt 90]
+   end
+
+
+to vis
+   if not shownp [op [pd]]
+   op [pu]
+   end
+
+to setvis :list
+   run :list
+   end
+
+to remember
+   op (list pos heading vis)
+   end
+
+to restore :tstate
+   setpos item 1 :tstate
+   seth item 2 :tstate
+   setvis item 3 :tstate
+   end
+
+
+to scales :x :y :vect
+   op list :x * first :vect :y * last :vect
+   end
+
+;; Convenience function.
+to sp :point
+   setpos scales :xscale :yscale :point
+   end
+
+;; coordinate translations
+
+to tridraw :trilist
+   pu
+   sp item 1 :trilist
+   pd
+   sp item 2 :trilist
+   sp item 3 :trilist
+   sp item 1 :trilist
+   end
+   
+to translate :xshift :yshift :point
+   op list sum :xshift first :point sum :yshift last :point
+   end
+
+to tri1
+   op [[2 1] [8 1] [4 6]]
+   end
+
+to tritrans :xshift :yshift :trilist
+   op (list translate :xshift :yshift item 1 :trilist ~
+            translate :xshift :yshift item 2 :trilist ~
+	    translate :xshift :yshift item 3 :trilist)
+   end
+   
+
+to triapply :functionlist :trilist
+   op (list (run lput item 1 :trilist :functionlist) ~
+      	    (run lput item 2 :trilist :functionlist) ~
+	    (run lput item 3 :trilist :functionlist))
+   end
+
+;; Vectors
+to scalar :num :vect
+   op list product :num first :vect product :num  last :vect
+   end
+
+to vsum :v1 :v2
+   op list (first :v1) + (first :v2) (last :v1) + (last :v2)
+   end
+
+to lc :v1 :v2 :n1 :n2
+   op vsum scalar :n1 :v1 scalar :n2 :v2
+   end
+
+to lc2 :v1 :v2 :v3
+   op lc :v1 :v2 first :v3 last :v3
+   end
+
+
+;; Matrices and transformations
+to ltr :matrix :vect
+   op lc2 first :matrix last :matrix  :vect
+   end
+
+to irot :ang
+   op list cos :ang sin :ang
+   end
+
+to jrot :ang
+   op list (minus sin :ang) cos :ang
+   end
+
+to matrix :l1 :l2
+   op list :l1 :l2
+   end
+
+to rotm :ang
+   op matrix irot :ang jrot :ang
+   end
+
+to mmult :mat1 :mat2
+   op matrix ltr :mat1 first :mat2 ltr :mat1 last :mat2
+   end
+
+;; Evaluating equations
+
+to evalx :rule :x
+   op run :rule
+   end
+
+
+;; Plotting and graphing.
+;; Call this before plotting
+to setinc :num
+   make "inc :num
+   end
+
+setinc .1
+
+to plot :rule :x :max
+   if :x > :max [stop]
+   setpos list :xscale * :x :yscale * evalx :rule :x
+   pd
+   plot :rule :x + :inc :max
+   end
+
+to graph :rule :x :max
+   localmake "statelist remember
+   pu
+   plot :rule :x :max
+   pu
+   restore :statelist
+   end
+
+;; ?
+to areapen :width
+   op :width * 100 - (2 * :width)
+   end
+
+;; Slope of a line through [0 0] and :point
+to slope :point
+   localmake "statelist remember
+   pu home
+   make "result (difference 450 towards :point)
+   restore :statelist
+   op remainder (round :result) 360
+   end
+
+to plot.map :rule :x :max :map
+   if :x > :max [stop]
+   sp run lput (list :x evalx :rule :x) :map
+   pd
+   plot.map :rule :x + :inc :max :map
+   end
+
+to graph.map :rule :x :max :map
+   localmake "statelist remember
+   pu ht
+   plot.map :rule :x :max :map
+   pu
+   restore :statelist
+   end
+
+
+to line.ang :line
+   local "factor
+   localmake "x 1
+   localmake "y evalx :line :x
+   localmake "pt list :x :y
+   ifelse :y < 0 [make "factor -1] [make "factor 1]
+   op slope scalar :factor :pt
+   end
+
+to graph.f :rule :x :max :line
+   localmake "ang line.ang :line
+   localmake "mat mmult rotm :ang mmult [[1 0] [0 -1]] rotm minus :ang
+   graph.map :rule :x :max list "ltr :mat
+   end
+
+;;
+;; Test. Note use of variables to hold functions in plot.test.
+;;
+;; cs axes 20 20 ht
+;;
+;; graph [:x * (:x - 2)] -4 4
+;;
+;; graph [-2 * :x] -4 4
+;;
+;; graph.f [:x * (:x - 2)] -4 4 [-2 * :x]
+;;
+
+
+to plot.test
+   localmake "f [:x*(:x - 2)]
+   localmake "g [-2*:x]
+   cs ht
+   window
+   axes 20 20
+   setinc .1
+   graph :f -10 10
+   graph :g -10 10
+   graph.f :f -10 10 :g
+   end

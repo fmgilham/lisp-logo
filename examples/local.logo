@@ -1,0 +1,16 @@
+to countsquares :x
+   if :x = 0 [stop]
+   make "xsq :x * :x
+   countsquares :x - 1
+   print :xsq
+   end
+
+
+to countsquares.local :x
+   local "xsq
+   if :x = 0 [stop]
+   make "xsq :x * :x
+   countsquares.local :x - 1
+   print :xsq
+   end
+

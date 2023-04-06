@@ -1,0 +1,61 @@
+TO quadrat :n
+   repeat 4 [forward :n right 90]
+   END
+
+
+TO iris
+   repeat 255 [
+     make "red repcount / 256.0
+     repeat 255 [
+        make "blue repcount / 256.0
+	make "green :red * :blue
+	setpencolor (se :red :green :blue)
+        quadrat 500
+        forward 25
+        right 3.7
+     ]
+     forward 100
+     left 17
+     if equalp readkey "q [stop]
+  ]
+  END
+
+
+
+TO getriebe
+   repeat 255 [
+     make "red repcount / 256.0
+     make "i repcount
+     repeat 255 [
+        make "blue repcount / 256.0
+	make "green :red * :blue
+	setpencolor (se :red :green :blue)
+        quadrat 500
+        forward 25
+        right 3.7 * :i
+     ]
+     forward 100
+     left 17
+     if equalp readkey "q [stop]
+  ]
+  END
+
+
+TO metal
+   setpencolor [.27 .27 .27]
+   repeat 255 [
+     repeat 255 [
+        quadrat 200
+	right .1
+	pu
+	fd repcount / 200
+	pd
+     ]
+     pu
+     forward repcount / 200
+     pd
+     left repcount
+     if equalp readkey "q [stop]
+  ]
+  END
+

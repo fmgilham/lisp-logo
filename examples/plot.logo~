@@ -1,0 +1,95 @@
+;;; Code from APPROACHING PRECALCULUS MATHEMATICS DISCRETELY 
+;;; by Philip G. Lewis.
+;;;
+
+to xdim
+   output 400
+   end
+
+to ydim
+   output 400
+   end
+
+
+to cross :scale
+   local "bar 
+   make "bar :scale / 10
+   lt 90
+   fd :bar
+   bk 2 * :bar
+   fd :bar
+   rt 90
+   end
+
+to mmark :scale
+   fd :scale 
+   cross :scale
+   end
+
+   
+to xax :xrep
+   repeat :xrep [mmark :xscale]
+   bk :xrep * :xscale
+   end
+
+to yax :yrep
+   repeat :yrep [mmark :yscale]
+   bk :yrep * :yscale
+   end
+
+to axes :xs :ys
+   make "xscale :xs
+   make "yscale :ys
+   local "xrep "yrep
+   make "xrep xdim / :xs
+   make "yrep ydim / :ys
+   repeat 2 [yax :yrep rt 90 xax :xrep rt 90]
+   end
+
+
+to vis
+   if not shownp [op [pd]]
+   op [pu]
+   end
+
+to setvis :list
+   run :list
+   end
+
+
+to remember
+   op (list pos heading vis)
+   end
+
+to restore :tstate
+   setpos item 1 :tstate
+   seth item 2 :tstate
+   setvis item 3 :tstate
+   end
+
+
+to evalx :rule :x
+   op run :rule
+   end
+
+to setinc :num
+   make "inc :num
+   end
+   
+
+to plot :rule :x :max
+   if :x > :max [stop]
+   setpos list :xscale * :x :yscale * evalx :rule :x
+   pd
+   plot :rule :x + :inc :max
+   end
+
+to graph :rule :x :max
+   localmake "statelist remember
+   pu
+   plot :rule :x :max
+   pu
+   restore :statelist
+   end
+
+

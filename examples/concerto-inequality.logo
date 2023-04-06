@@ -1,0 +1,44 @@
+; Solving x^3+y^3-axy<0
+to main
+pd
+; frame_it 
+setpc 2 axes
+; print [Input size for a (try 150)]
+pu doit 150
+end
+
+to setpixel :color
+  localmake "old pc
+  setpc :color
+  fd 1
+  setpc :old
+end
+
+
+
+to axes
+repeat 4[fd 90 bk 90 rt 90]
+end
+
+to doit :a
+draw random 250 random 250
+end
+
+to drawit :x :y
+pu setxy :x :y pd setpixel 4
+end
+
+to draw :x :y
+if :x * :x * :x + :y * :y *:y - :a * :x * :y < 0 [ drawit :x :y]
+draw random 250 random 250
+end
+
+
+;to draw :x :y
+;if (func :x :y) < 0 [ pu setxy :x :y pd setpixel 4]
+;draw random 250 random 250
+;end
+
+;to func :x :y
+;output (difference (sum (product :x  :x) (product :y :y)) (product :a  :x  :y))
+;end

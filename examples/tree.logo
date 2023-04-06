@@ -1,0 +1,45 @@
+to tree :depth :len :scale :angle
+  if :depth = 0 [stop]
+  ifelse :depth < 2 [setpc 2] [setpc 8]
+  setpensize round :depth / 2
+  forward :len
+  right :angle
+  tree :depth - 1 :len * :scale :scale :angle
+  left 2 * :angle
+  tree :depth - 1 :len * :scale :scale :angle
+  right :angle
+  back :len
+end
+
+
+to tree2 :depth :len :scale :angle
+  if :depth = 0 [stop]
+  ifelse :depth < 2 [setpc 2] [setpc 8]
+  setpensize round :depth / 2
+  forward :len
+  right :angle
+  tree2 :depth - 1 :len * :scale :scale :angle + 20
+  left 2 * :angle
+  tree2 :depth - 1 :len * :scale :scale :angle - 10
+  right :angle
+  back :len
+end
+
+;;clearscreen
+;;pu back 100 pd
+;;tree 10 80 0.7 30
+
+TO tree3 :size
+   if :size < 5 [forward :size back :size stop]
+   forward :size / 3
+   left 30 tree3 :size * 2 / 3 right 30
+   forward :size / 6
+   right 25 tree3 :size / 2 left 25
+   forward :size / 3
+   right 25 tree3 :size / 2 left 25
+   forward :size / 6
+   back :size
+END
+
+clearscreen
+tree3 150

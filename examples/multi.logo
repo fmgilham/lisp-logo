@@ -1,0 +1,54 @@
+;; Simple demo of multiple turtles running asynchronously (using threads).
+
+to func
+   setpc random 16
+   run list item 1 + random 4 [fd bk rt lt] random 10
+   end
+
+to randfunc :turtle
+   tell :turtle
+   ht
+   repeat 100000 [func]
+   end
+
+to setupturtle :turtle
+   tell :turtle
+   ht 
+   pu setpos se (random 400) - 200 (random 400) - 200 wait 30 pd
+   end
+
+to multidemo
+   clt cs
+   tell "studs 
+   ht
+   breed "t 3
+   setupturtle "t1
+   setupturtle "t2
+   setupturtle "t3
+   task "t1 [randfunc "t1]
+   task "t2 [randfunc "t2]
+   task "t3 [randfunc "t3]
+   end
+
+
+;; Demo of many turtles.
+
+to lollipop
+   hideturtle
+   setpencolor 1 + random 15
+   right random 360
+   forward (random 400) + (random 100)
+   circle random 200
+   end
+
+
+to explode
+   clearscreen
+   clearturtles
+
+   ; Make 1000 turtles, with names t1, t2 t3 etc.
+   breed "t 1000
+
+   ; Have each turtle draw a random "lollipop"
+   tellall [lollipop]
+   end

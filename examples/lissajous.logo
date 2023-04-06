@@ -1,0 +1,26 @@
+to lj :p1 :p2
+repeat 360 [setxy (sin (:p1 * repcount)) * 250 (sin (:p2 * repcount)) * 250]
+end
+
+;; repeat 360 [setxy (sin(2 * repcount)) * 150 (sin(3 * repcount)) * 150]
+;; repeat 360 [setxy (sin(89 * repcount)) * 150 (sin(179 * repcount)) * 150]
+;; repeat 360 [setxy (sin(254 * repcount)) * 150 (sin(201 * repcount)) * 150]
+;; repeat 360 [setxy (sin(327 * repcount)) * 150 (sin(66 * repcount)) * 150]
+to lissajous
+ht
+cs
+setpc 2
+lj 2 3
+wait 360
+cs
+setpc 4
+lj 89 179
+wait 360
+cs
+setpc 6
+lj 254 201
+wait 360
+cs
+setpc 8
+lj 327 66
+end

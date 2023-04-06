@@ -1,0 +1,22 @@
+to dragon :sign :level
+   ifelse :level = 0 [fd :stepsize] [
+      make "level :level - 1
+      rt 45 * :sign
+      dragon -1 :level
+      lt 90 * :sign
+      dragon 1 :level
+      rt 45 * sign
+      ]
+   end
+
+
+to dragoncurve :n
+   ht
+   make "stepsize 1.5
+;;   pu setpos [330 50] pd
+   rt 30
+   dragon 1 :n
+   end
+
+
+   

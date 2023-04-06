@@ -1,0 +1,37 @@
+;; Regresssion tests
+
+load "examples/absurd
+perspective
+
+load "examples/animation
+puff
+
+load "examples/braid
+start
+
+load "examples/angles
+langle 37
+rangle 42
+
+load "examples/ci
+main2 1000000
+
+load "examples/change
+
+countchange 350
+print cc 350 5
+print cc1 350 5
+print cc2 350 5
+print cc3 350 5
+print cctail 350 5 0
+
+
+load "examples/misc
+randfunc
+
+load "examples/fern
+
+po [fern decorate.fern]
+
+disassemble "fern
+

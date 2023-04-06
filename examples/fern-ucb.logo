@@ -1,0 +1,52 @@
+
+TO fern :size :sign
+   if :size < 1 [stop]
+   fd :size
+   rt 70 * :sign
+   fern :size * 0.5 :sign * -1 
+   lt 70 * :sign
+   fd :size
+   lt 70 * :sign
+   fern :size * 0.5 :sign
+   rt 70 * :sign
+   rt 7 * :sign
+   fern :size - 1 :sign
+   lt 7 * :sign
+   bk :size * 2
+   END
+
+TO decorate.fern
+   make "code array 16
+   setitem  1 :code "|TO fern :size :sign|
+   setitem  2 :code "|if :size < 1 [stop]|
+   setitem  3 :code "|fd :size|
+   setitem  4 :code "|rt 70 * :sign|
+   setitem  5 :code "|fern :size * 0.5 :sign * -1|
+   setitem  6 :code "|lt 70 * :sign|
+   setitem  7 :code "|fd :size|
+   setitem  8 :code "|lt 70 * :sign|
+   setitem  9 :code "|fern :size * 0.5 :sign|
+   setitem 10 :code "|rt 70 * :sign|
+   setitem 11 :code "|rt 7 * :sign|
+   setitem 12 :code "|fern :size - 1 :sign|
+   setitem 13 :code "|lt 7 * :sign|
+   setitem 14 :code "|bk :size * 2|
+   setitem 15 :code "|END|
+
+   ;;setfont "large
+   localmake "x 75
+   localmake "y 75
+   pu setxy :x :y pd
+   label item 1 :code
+   make "y :y - 25
+   repeat 13 [pu setxy :x + 20 :y pd label item repcount + 2 :code make "y :y - 25]
+   pu setxy :x :y pd
+;   label item 15 :code
+   END
+
+cs ht
+pu setxy -200 -350 pd
+setpc 2
+fern 30 .5
+setpc 7
+decorate.fern

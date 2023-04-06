@@ -1,0 +1,95 @@
+;;; "Concerto inequality" --- Solving x^3 + y^3 -axy < 0
+
+;;;
+;;; Lisp logo doesn't handle tail recursion (at this point).
+;;; Using the original versions of DRAW and DODRAW will overflow the stack.
+;;;
+
+;;; Works
+to func1 :x :y :a
+output (difference (sum (product :x :x :x) (product :y :y :y)) (product :a  :x  :y))
+end
+
+;;; Works
+to func2 :x :y :a
+output :x * :x * :x + :y * :y * :y - :a * :x * :y
+end
+
+to func3 :x :y :a
+output (power :x 3) + (power :y 3) - :a * :x * :y
+end
+
+;;; Seems like it works.
+to func4 :x :y :a
+output (product :x :x :x) + (product :y :y :y) - (product :a :x :y)
+end
+
+to setpixel :x :y :color
+   make "old pencolor
+   setpc :color
+   pu setxy :x :y pd fd 1
+   setpc :old
+end
+
+;;; Blows up the stack
+;to draw :x :y
+;if :x * :x * :x + :y * :y *:y - :a * :x * :y < 0 [setpixel :x :y 4]
+;draw random 250 random 250
+;end
+;;
+;to dodraw :a
+;draw random 250 random 250
+;end
+
+;; Iterative version --- works as is
+to draw :x :y :a
+if :x * :x * :x + :y * :y *:y - :a * :x * :y < 0 [ setpixel :x :y 4]
+end
+
+;; Iterative version with function call --- works as is
+;to draw :x :y :a
+;if (func4 :x :y :a) < 0 [ setpixel :x :y 4]
+;end
+
+;; Iterative version driver
+to dodraw :a :n
+repeat :n [draw random 150 random 150 :a]
+end
+
+to axes
+repeat 4 [fd 90 bk 90 rt 90]
+end
+
+
+to main :c ; Solving x^3+y^3-axy<0
+cs ht pd
+setpc 2 axes
+print [Input size for A (try 150)]
+localmake "a rw
+print prettydate
+wait 0    ; flush buffer
+pu dodraw :a :c
+print prettydate
+end
+
+; Solving x^3+y^3-axy<0
+to main1 :c
+cs ht pd
+setpc 2 axes
+localmake "a 250
+print prettydate
+wait 0
+pu dodraw :a :c
+print prettydate
+end
+
+
+to main2 :c ; Solving x^3+y^3-axy<0
+pd
+setpc 2 axes
+;;pr [Input size for a (try 150)]
+print shell "date
+pu dodraw 254 :c
+print shell "date
+end
+

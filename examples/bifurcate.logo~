@@ -1,0 +1,38 @@
+to bifurcate
+;   norefresh   ;comment out for printing or saving
+   clearScreen 
+   hideTurtle
+   make "sx 800
+   make "sy 800
+
+   make "c array :sx   
+   repeat :sx [make item repcount :c 2.8 + (4 - 2.8) * repcount / :sx]
+
+   make "x Array :sx 
+   repeat :sx [make item repcount :x 0.5]
+
+   make "L1 Array :sx   
+   repeat :sx [make item repcount :L1 1]
+
+   make "isx Array iSeq 1 sx
+   ix=isx*800/sx-400
+
+   iter=500
+   miniter=100
+   repeat iter [
+      make "x c * x * ( _1 - x)
+      i=repcount
+      color=HSBA 360*i/iter 1 1 1 ;0.2
+      if repcount > miniter
+      [   setPixelXY ix x*600-300 color
+         updateGraph
+      ]
+      dispatchMessages
+      if Key?
+      [   if (rawASCII readChar)==WXK_ESCAPE
+         [   break
+         ]
+      ]
+   ]
+   pr [OK]
+end

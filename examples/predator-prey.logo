@@ -1,0 +1,35 @@
+to turtle.state
+   (list pos heading)
+end
+
+to setturtle :state
+   setpos first state
+   setheading second state
+end
+
+to setup
+   hatch "prey
+   hatch "preditor
+   end
+
+
+to preystep :speed :turn
+   tell "prey
+   fd :speed
+   rt :turn
+   end
+
+to predatorstep :speed :turn
+   tell "predator
+   fd :speed
+   if smell = "weaker [rt :turn]
+end
+
+to execute.step :turtle
+   tell :turtle
+   run :process
+   end
+
+to execute.together
+   forever [
+   	   execute.step 

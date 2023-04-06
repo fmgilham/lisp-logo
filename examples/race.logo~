@@ -1,0 +1,84 @@
+
+to loop.t1
+   tell "t1
+   seth towards ask "t2 "pos
+   fd 10
+   end
+
+to loop.t2
+   tell "t2
+   seth towards ask "t3 "pos
+   fd 10
+   end
+
+to loop.t3
+   tell "t3
+   seth towards ask "t4 "pos
+   fd 10
+   end
+
+to loop.t4
+   tell "t4
+   seth towards ask "t1 "pos
+   fd 10
+   end
+
+
+to four.loop
+   repeat 100 [loop.t1 loop.t2 loop.t3 loop.t4 wait 5]
+   end
+
+to four
+   clt cs
+   tell "studs
+   ht
+   breed "t 4
+   tell "t1
+      ht pu setpos [-350 -350] pd
+   tell "t2 
+      ht pu setpos [-350  350] pd
+   tell "t3
+      ht pu setpos [ 350  350] pd
+   tell "t4 
+      ht pu setpos [ 350 -350] pd
+   pd
+   four.loop
+   end
+   
+
+to task.t1
+   task "t1 [repeat 100 [seth towards ask "t2 "pos fd 10 wait 2]]
+   end
+
+to task.t2
+   task "t2 [repeat 100 [seth towards ask "t3 "pos fd 10 wait 2]]
+   end
+
+to task.t3
+   task "t3 [repeat 100 [seth towards ask "t4 "pos fd 10 wait 2]]
+   end
+
+to task.t4
+   task "t4 [repeat 100 [seth towards ask "t1 "pos fd 10 wait 2]]
+   end
+
+
+to four.task
+   clt cs
+   tell "studs
+   ht
+   breed "t 4
+   tell "t1
+      pu ht setpos [-350 -350] pd
+   tell "t2 
+      pu ht setpos [-350  350] pd
+   tell "t3
+      pu ht setpos [ 350  350] pd
+   tell "t4 
+      pu ht setpos [ 350 -350] pd
+   pd
+   task.t1
+   task.t2
+   task.t3
+   task.t4
+   end

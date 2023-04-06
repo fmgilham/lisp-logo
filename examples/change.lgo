@@ -1,0 +1,71 @@
+;;; Counting change. Time-stamp: <2022-12-17 08:41:18 fred>
+;;;
+;;; The problem is to determine how many different ways there are to
+;;; make change for a given amount using five denominations of US
+;;; coins (including the 50-cent piece).
+;;;
+;;; Good benchmark and tester. Helped me wring out a bunch of bugs.
+
+to firstden :kinds
+output ifelse :kinds = 1 [1] [
+         ifelse :kinds = 2 [5] [
+           ifelse :kinds = 3 [10] [
+             ifelse :kinds = 4 [25] [
+	       if :kinds = 5 [50]]]]]
+end
+
+;; The following all seem to work as of 11/29/2022. They employ
+;; various ways of outputting results, making recursive calls,
+;; parenthesization etc.
+
+to cc :amount :kinds
+  ifelse :amount = 0 [ output 1] [
+    ifelse or :amount < 0 :kinds = 0 [output 0] [
+      output (cc :amount - (firstden :kinds) :kinds) + (cc :amount :kinds - 1)]]
+  end
+
+to cc1 :amount :kinds
+ifelse :amount = 0 [output 1] [
+  ifelse or :amount < 0 :kinds = 0 [output 0] [
+    output sum cc1 difference :amount firstden :kinds :kinds  cc1 :amount difference :kinds 1]]
+end
+
+to cc2 :amount :kinds
+   output ifelse :amount = 0 [1] [
+            ifelse or :amount < 0 :kinds = 0 [0] [
+              (cc2 :amount - (firstden :kinds) :kinds) + (cc2 :amount :kinds - 1)]]
+end
+
+to cc3 :amount :kinds
+   if    :amount = 0            [output 1]
+   if or :amount < 0 :kinds = 0 [output 0]
+   output (cc3 :amount - (firstden :kinds) :kinds) + (cc3 :amount :kinds - 1)
+   end
+
+to cctail :amount :kinds :total
+   ifelse :amount = 0 [output :total + 1] [
+     ifelse or :amount < 0 :kinds = 0 [output :total] [
+       output cctail :amount - firstden :kinds :kinds cctail :amount :kinds - 1 :total]]
+   end
+
+to countchange :amount
+   localmake "startsec first date
+   localmake "startmin first butfirst date
+   (print "|Starting at| prettydate)
+   wait 0
+;   print se "result cctail :amount 5 0
+   (print "|Result| cc :amount 5)
+   (print "|Finished at| prettydate)
+   localmake "endsec first date
+   localmake "endmin first butfirst date
+   localmake "ttim 60 * (:endmin - :startmin) + (:endsec - :startsec)
+   (print "|countchange| :amount "|took| :ttim "|seconds|)
+   end
+
+;; For ucblogo
+to countchange2 :amount
+   print shell "date
+;   print cc :amount 5              ; uncomment for recursive version
+   print cctail :amount 5 0       ; uncomment for tail-recursive version
+   print shell "date
+   end

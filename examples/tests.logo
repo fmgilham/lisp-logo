@@ -1,0 +1,66 @@
+;; Regresssion tests
+
+load "examples/absurd
+perspective
+
+cs
+
+load "examples/animation
+puff
+
+cs
+
+load "examples/braid
+start
+wait 60
+
+load "examples/angles
+langle 37
+wait 60
+cs
+rangle 42
+wait 60
+
+cs
+load "examples/ci
+main1 100000
+
+load "examples/change
+
+countchange 350
+print cc 350 5
+print cc1 350 5
+print cc2 350 5
+print cc3 350 5
+print cctail 350 5 0
+
+cs ht
+load "examples/misc
+randfunc
+
+;; Checks for nested repeats that access repcount.
+cs ht
+load "examples/moire
+window
+moire 1000 10
+
+;; Lists of procedure calls: (list heading xcor ycor)
+;; List manipulation.
+cs window ht
+load "examples/plot
+plot.test
+;axes 20 20
+;setinc .1
+;graph [:x * :x - 3 * :x - 3] -10 10
+;wait 60
+;graph.f [:x * :x - 3 * :x - 3] -10 10 [-2 * :x]
+wait 60
+
+
+load "examples/fern
+wait 60
+
+po [fern decorate.fern]
+
+disassemble "fern
+

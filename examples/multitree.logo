@@ -1,0 +1,49 @@
+
+TO tree :size :order
+   if :order = 0 [stop]
+   left 45
+   forward :size
+   tree :size / 2 :order - 1
+   penup
+   back :size
+   right 90
+   pendown
+   forward :size
+   tree :size / 2 :order - 1
+   penup
+   back :size
+   left 45
+   pendown
+   END
+
+TO dotree :turtle
+   tell :turtle
+   ht
+   tree :length / 2 :level - 1
+   end
+
+TO multi.tree :size :order
+   make "length :size
+   make "level :order
+   ht
+   tell "studs
+   ht
+   cs sety 0
+;;   if :order = 0 [STOP]
+   hatch "t1
+   tell "t1
+;   task "t1 [dotree "t1]
+   tell "t1 
+     ht
+     forward :size
+     left 45
+     dotree "t1
+   hatch "t2
+   tell "t2
+     ht
+     right 90
+     forward :size
+;   task "t2 [dotree "t2]
+     dotree "t2
+   clt
+   END

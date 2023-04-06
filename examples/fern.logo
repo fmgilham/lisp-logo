@@ -1,0 +1,52 @@
+
+TO fern :size :curvature
+  if :size < 1 [stop]
+  fd :size
+  rt 70*:curvature
+  fern 0.5*:size -1*:curvature
+  lt 70*:curvature
+  fd :size
+  lt 70*:curvature
+  fern 0.5*:size :curvature
+  rt 70*:curvature
+  rt 7*:curvature
+  fern :size - 1 :curvature
+  lt 7*:curvature
+  bk 2*:size
+  END
+
+TO decorate.fern
+   make "code array 16
+   setitem  1 :code "|TO fern :size :curvature|
+   setitem  2 :code "|if :size < 1 [stop]|
+   setitem  3 :code "|fd :size|
+   setitem  4 :code "|rt 70*:curvature|
+   setitem  5 :code "|fern .5*:size -1*:curvature|
+   setitem  6 :code "|lt 70*:curvature|
+   setitem  7 :code "|fd :size|
+   setitem  8 :code "|lt 70*:curvature|
+   setitem  9 :code "|fern .5*:size :curvature|
+   setitem 10 :code "|rt 70*:curvature|
+   setitem 11 :code "|rt 7*:curvature|
+   setitem 12 :code "|fern :size - 1 :curvature|
+   setitem 13 :code "|lt 7*:curvature|
+   setitem 14 :code "|bk 2*:size|
+   setitem 15 :code "|END|
+
+   setfont "large
+   localmake "x 75
+   localmake "y 75
+   pu setxy :x :y pd
+   label item 1 :code
+   make "y :y - 25
+   repeat 14 [pu setxy :x + 20 :y pd label item repcount + 1 :code make "y :y - 25]
+   pu setxy :x :y pd
+   END
+
+cs ht
+pu setxy -200 -350 pd
+setpc 2
+fern 30 .5
+;fern 30 1
+setpc 7
+decorate.fern

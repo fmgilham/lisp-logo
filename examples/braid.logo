@@ -1,0 +1,80 @@
+TO STRIP :N
+REPEAT :N [
+     LT 45 FD :H2 RT 45 FD 6 RT 45 FD :S2H2
+     PU RT 90 FD :H2 PD
+     RT 90 FD :S2 LT 45 FD 6
+     PU LT 45 FD :S2H2 PD
+     LT 135 RT 45 FD :H2 LT 45 FD 6 LT 45 FD :S2H2 
+     PU LT 90 FD :H2 PD
+     LT 90 FD :S2 RT 45 FD 6 
+     PU RT 135 FD :S2H2 RT 45 FD 6 PD
+   ]
+   END
+
+TO CORNER 
+   LT 45 FD :H2 RT 45 FD 6
+   RT 45 FD :S2 RT 45 FD 18
+   RT 45 FD :S2H2 
+   PU RT 90 FD :H2 PD
+   RT 90 FD :S2 LT 45 FD 18 LT 90 FD 6 
+   PU LT 45 FD :S2 PD
+   LT 90 FD 17 
+   PU RT 90 FD :H2 PD
+   RT 90 FD 17 
+   PU RT 45 FD 6 RT 90 FD 12 PD
+   RT 45 FD :H2 RT 45 FD 6 RT 45 FD :H2
+   PU RT 90 FD :H2 PD
+   RT 45 FD 6 
+   PU BK 15 RT 90 FD 9 RT 90 PD
+   END
+
+; TO BRAID 
+; (LOCAL "SQR2 "HFSQ2 "S2 "H2 "S2H2)
+; MAKE "SQR2 1.4 ; SQRT 2
+; MAKE "HFSQ2 0.7 ; :SQR2 * 0.5
+; MAKE "S2 8.5 ; :SQR2 * 6
+; MAKE "H2 4.2 ; :HFSQ2 * 6
+; MAKE "S2H2 12.7 ; :S2 + :H2
+; PU FD 24 RT 45 FD 4.2 SETH 0 PD
+; REPEAT 2 [STRIP 38 CORNER STRIP 38 CORNER]
+; END
+
+; TO BRAID 
+; LOCALMAKE "SQR2 1.4 ; SQRT 2
+; LOCALMAKE "HFSQ2 0.7 ; :SQR2 * 0.5
+; LOCALMAKE "S2 8.5 ; :SQR2 * 6
+; LOCALMAKE "H2 4.2 ; :HFSQ2 * 6
+; LOCALMAKE "S2H2 12.7 ; :S2 + :H2
+; PU FD 24 RT 45 FD 4.2 SETH 0 PD
+; REPEAT 2 [STRIP 38 CORNER STRIP 38 CORNER]
+; END
+
+TO BRAID 
+   LOCALMAKE "SQR2    SQRT 2.0
+   LOCALMAKE "HFSQ2   0.5 * :SQR2
+   LOCALMAKE "S2      6.0 * :SQR2
+   LOCALMAKE "H2      6.0 * :HFSQ2
+   LOCALMAKE "S2H2    :S2 + :H2
+   PU FD 24 RT 45 FD 4.2 SETH 0 PD
+   REPEAT 2 [STRIP 38 CORNER STRIP 38 CORNER]
+   END
+
+
+TO BORDER
+   CS HT 
+   PU SETPOS [-249 -249] PD
+   HT SETH 0
+   BRAID
+   END
+
+TO START
+   ; Here's a simple procedure that puts a braided border around the
+   ; edge of the screen. Morf likes frames for his pictures.
+   ;
+   ; You can change the size of the border by changing the variable
+   ; used by STRIP in the BRAID procedure.
+   BORDER
+   END
+
+
+

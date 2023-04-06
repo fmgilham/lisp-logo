@@ -1,0 +1,10 @@
+;; Simple demo of multiple turtles running asynchronously (using threads).
+
+to func
+setpc random 16
+run list item 1 + random 4 [fd bk rt lt] random 10
+end
+
+to randfunc
+repeat 10000 [func]
+end
