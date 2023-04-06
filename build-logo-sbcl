@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#
+## Time-stamp: <2022-11-17 06:57:21 fred>
+#
+
+SBCL=${SBCL:-/usr/local/bin/sbcl}
+BUILD="$SBCL"
+
+$BUILD << EOF
+(asdf:compile-system :logo :force t)
+(asdf:load-system :logo :force t)
+(progn
+(format t
+"~&*************************~%
+***** Building image ****~%
+*************************~%")
+(force-output)
+(save-lisp-and-die "sblogo" :executable t :toplevel #'logo:logo-toplevel))
+EOF

@@ -1,0 +1,105 @@
+;;
+;;; Time-stamp: "2023-04-06 09:35:03 fred"
+;;
+
+This is a Logo programming language system. It works by translating
+from Logo into Common Lisp and automatically compiling the result.
+
+I began this program years ago under the fond misapprehenstion that it
+would simply involve writing a few read-macros and some procedures.
+After all, Logo is a "dialect" of lisp, right?
+
+This is beta code at this point. That is, it works most of the time
+but sometimes behaves strangely. It is also incomplete. There are a
+couple known bugs such as drawing the turtle when you have multiple
+turtles. Read the example programs to see what is available. This is
+definitely hackerware at this point but it can give a pretty
+spectacular speedup in many instances.
+
+It generally runs really fast compared to interpreted versions.
+However, there are a few drawbacks to the compiled approach.
+
+Iterating the "run" call is slow. The whole point of "run" is to
+execute code built at run time, and this system compiles that
+code---at run time. So something like
+
+repeat 1000 [run [some runlist]]
+
+will compile [some runlist] 1000 times. This is desirable because it
+allows run time code construction, but it's pretty heavy weight. The
+result is that it can run slower than interpreted versions.
+
+An example is this code, in examples/misc.logo:
+
+to rand
+repeat 100000 [run list item 1 + random 4 [fd bk rt lt] random 10 setpc random 16]
+end
+
+This will run the compiler 100000 times in the process of execution.
+
+This implementation supports an arbitrary number of turtles. See the
+examples/multi.logo and examples/fractals.logo files.
+
+Under Linux it also supports "tasks" which associates a turtle with a
+thread. An example of this is in the examples/multi.logo file.
+
+To build:
+
+Choose your implementation. On Linux, SBCL is recommended though CCL
+and CMUCL will work.
+
+To work with asdf, create a file under
+
+.config/common-lisp/source-registry.conf.d
+
+named
+
+10-logo.conf
+
+with the following contents:
+
+(:tree "<location of the logo distribution>")
+
+Then run one of
+
+build-logo-sbcl
+build-logo-ccl
+build-logo-cmucl
+
+depending on the version of lisp you want to use.
+
+The logo prompt is "? " or when you are defining a procedure "> ".
+Type
+
+cs
+
+to get the window to appear. You don't need the window to run programs
+in the examples directory like change.lgo or
+logoworks/sentence-generator.logo that don't use graphics.
+
+Lisp-logo can be convinced to work with SBCL under windows if you
+install an X11 server like VcXsrv. Your mileage may vary. You need to
+have SBCL running first. This code contains its own version of CLX,
+hacked slightly to try to run under Windows.
+
+To build and run with SBCL using Windows:
+
+Start SBCL.
+
+Execute
+
+(load "logo.asd")
+(asdf:compile-system "logo")
+(asdf:load-system "logo")
+(logo)
+
+To test under Linux, assuming SBCL:
+
+in the main directory, after building run
+
+sblogo
+
+Then run
+
+> load "examples/tests
+

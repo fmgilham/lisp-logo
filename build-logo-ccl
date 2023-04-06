@@ -1,0 +1,22 @@
+#!/bin/sh
+
+#
+## Time-stamp: <2022-11-17 06:56:48 fred>
+#
+
+CCL=${CCL:-/usr/local/bin/ccl}
+BUILD="$CCL --batch"
+LOAD=$CCL
+QUIT="(quit)"
+
+$BUILD << EOF
+(load "logo.asd")
+(asdf:compile-system :logo :force t)
+(asdf:load-system :logo :force t)
+(pushnew #'logo:logo-toplevel ccl:*lisp-startup-functions*)
+(progn
+	(ccl::impurify)
+	(ccl:gc)
+	(ccl::purify))
+(apply #'ccl:save-application (list "ccl-logo" :prepend-kernel t))
+EOF

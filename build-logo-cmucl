@@ -1,0 +1,17 @@
+#!/bin/sh
+
+#
+## Time-stamp: <2022-11-17 06:57:03 fred>
+#
+
+
+CMUCL=${CMUCL:-/usr/local/bin/lisp}
+BUILD="$CMUCL"
+
+$BUILD << EOF
+(asdf:compile-system :logo :force t)
+(asdf:load-system :logo :force t)
+(setf ext:*after-save-initializations*
+      (append ext:*after-save-initializations* (list #'logo:logo-toplevel)))
+(save-lisp "cmulogo" :executable t)
+EOF

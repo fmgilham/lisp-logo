@@ -1,0 +1,30 @@
+* DONE Fix problem with undefined procedures in runlists not being recognized when they are defined.
+* DONE Set up changing fonts.
+* TODO Fix package issue (!)
+- User stuff must go in logo-user so user code can't clash with
+  builtin stuff in logo package or stuff in CL or XLIB. This is a
+  major issue!
+* TODO Use arbitrary fonts (bitmap for now)
+- TTF/OTF only a gleam in my eye right now....
+- Font rotation
+* TODO Add procedures from UCBLogo
+* TODO Add scheme for using muliple turtles
+- A thread per turle
+* TODO Add bitmaps (xpm)
+* TODO Let the turtle be a bitmap
+- Rotate bitmaps
+* TODO Use emacs as a canvas?
+- Possible but probably not practical.
+* DONE Tests
+- UCBLogo tests (where possible/appropriate)
+* TODO Save screen as xpm file (xpm is easy; jpeg is harder)
+* TODO More colors / better color scheme
+* TODO Revisit errors
+- Restarts
+- Make all errors lead to logo toplevel
+- Logo level debugger?
+* TODO Distribution
+- Github? Other? SBCL contrib??
+* TODO Figure out if tail-recursion optimization is possible.
+- Currently special bindings inhibit it.
+  - Mechanically convert tail recursion to jumps? How?
