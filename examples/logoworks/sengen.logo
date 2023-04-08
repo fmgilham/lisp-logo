@@ -1,0 +1,65 @@
+
+;to select :item :list
+;if :item = 1 [output first :list]
+;output select :item - 1 butfirst :list
+;end
+
+
+;to pick :list
+;; output select 1 + random count :list :list
+;output item 1 + random count :list :list
+;end
+
+to verbs
+output [eat scare love hate (laugh at) trip bite]
+end
+
+to verb
+output pick verbs
+end
+
+to nouns
+output [boys [dogs and cats] puppies [siamese fighting fish]
+       geese birds girls [guinea pigs] [mice and gerbils]
+       worms teachers donkeys clowns [baseball players]]
+end
+
+to noun
+output pick nouns
+end
+
+to adjectives
+output [red fat angry lazy [fuzzy wuzzy] peculiar crazy foolish
+        jumping interesting sad boring happy noisy playful]
+end
+
+to adjective
+output pick adjectives
+end
+
+to verbphrase
+output sentence verb noun
+end
+
+to nounphrase
+output sentence adjective noun
+end
+
+to sen
+output sentence nounphrase verbphrase
+end
+
+to connects
+output [because but when and [even though] after since]
+end
+
+to connect
+output pick connects
+end
+
+to sengen
+print sentence sen sentence connect sen
+make "a readword
+if equalp :a "stop [stop]
+sengen
+end

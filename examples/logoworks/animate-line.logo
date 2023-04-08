@@ -1,0 +1,44 @@
+make "black 0
+make "blue 1
+make "green 2
+make "cyan 3
+make "red 4
+make "magenta 5
+make "yellow 6
+make "white 7
+make "brown 8
+make "tan 9
+make "forestgreen 10
+make "aquamarine 11
+make "salmon 12
+make "purple 13
+
+
+
+to starline :heading
+seth :heading
+fd 100 bk 100
+nextpen
+setpc :thepc
+end
+
+to starcircle
+setpc :yellow
+repeat 50 [circle repcount]
+end
+
+
+to star
+pd ht
+localmake "thepc 0
+;repeat 36 [fd 100 bk 100 rt 10 nextpen setpc :thepc]
+starcircle
+repeat 36 [starline 10 * random 36 ]
+starcircle
+end
+
+to nextpen
+; ifelse :thepc = 13 [make "thepc 0] [make "thepc :thepc + 1]
+make "thepc 1 + random 13
+wait 1
+end
