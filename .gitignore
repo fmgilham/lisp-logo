@@ -1,0 +1,6 @@
+*.fasl
+*.sse2f
+*~
+cmulogo
+sblogo
+ccl-logo
